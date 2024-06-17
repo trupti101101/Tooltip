@@ -1,72 +1,69 @@
-def add(x, y):
-    # Attempt to add as numbers first, if it fails, concatenate as strings
-    try:
-        return float(x) + float(y)
-    except ValueError:
-        return str(x) + str(y)
+class ToDoApp:
+    def __init__(self):
+        self.tasks = []
 
-def subtract(x, y):
-    return x - y
+    def add_task(self, task):
+        self.tasks.append(task)
+        print(f"Task '{task}' added.")
 
-def multiply(x, y):
-    return x * y
+    def view_tasks(self):
+        if not self.tasks:
+            print("No tasks available.")
+        else:
+            print("To-Do List:")
+            for idx, task in enumerate(self.tasks, start=1):
+                print(f"{idx}. {task}")
 
-def divide(x, y):
-    if y == 0:
-        return "Error! Division by zero."
-    return x / y
+    def delete_task(self, task_number):
+        if 0 < task_number <= len(self.tasks):
+            removed_task = self.tasks.pop(task_number - 1)
+            print(f"Task '{removed_task}' deleted.")
+        else:
+            print("Invalid task number.")
 
-def calculator():
-    print("==| Welcome To Math & String Calculator |==")
-    print("Select operation:")
-    print("1. Addition (Numeric or String)")
-    print("2. Subtraction (Numeric)")
-    print("3. Multiplication (Numeric)")
-    print("4. Division (Numeric)")
+    def update_task(self, task_number, new_task):
+        if 0 < task_number <= len(self.tasks):
+            old_task = self.tasks[task_number - 1]
+            self.tasks[task_number - 1] = new_task
+            print(f"Task '{old_task}' updated to '{new_task}'.")
+        else:
+            print("Invalid task number.")
 
-    while True:
-        choice = input("Enter choice (1/2/3/4): ")
-
-        if choice in ['1', '2', '3', '4']:
-            num1 = input("Enter first operand: ")
-            num2 = input("Enter second operand: ")
-
-            try:
-                if choice != '1':
-                    num1 = float(num1)
-                    num2 = float(num2)
-
-            except ValueError:
-                print("Invalid input. Please enter numeric values for numeric operations.")
-                continue
+    def run(self):
+        while True:
+            print("\n==| Welcome To 'TO DO App' |==")
+            print("\nOptions:")
+            print("1. Add Task")
+            print("2. View Tasks")
+            print("3. Delete Task") 
+            print("4. Update Task")
+            print("5. Exit")
+            choice = input("Enter your choice (1/2/3/4/5): ")
 
             if choice == '1':
-                result = add(num1, num2)
-                print(f"{num1} + {num2} = {result}")
+                task = input("Enter the task: ")
+                self.add_task(task)
             elif choice == '2':
-                if isinstance(num1, float) and isinstance(num2, float):
-                    result = subtract(num1, num2)
-                    print(f"{num1} - {num2} = {result}")
-                else:
-                    print(f"Invalid operands for numeric subtraction.")
+                self.view_tasks()
             elif choice == '3':
-                if isinstance(num1, float) and isinstance(num2, float):
-                    result = multiply(num1, num2)
-                    print(f"{num1} * {num2} = {result}")
-                else:
-                    print(f"Invalid operands for numeric multiplication.")
+                try:
+                    task_number = int(input("Enter the task number to delete: "))
+                    self.delete_task(task_number)
+                except ValueError:
+                    print("Please enter a valid number.")
             elif choice == '4':
-                if isinstance(num1, float) and isinstance(num2, float):
-                    result = divide(num1, num2)
-                    print(f"{num1} / {num2} = {result}")
-                else:
-                    print(f"Invalid operands for numeric division.")
-
-            next_calculation = input("Do you want to perform another calculation? (yes/no): ")
-            if next_calculation.lower() != 'yes':
+                try:
+                    task_number = int(input("Enter the task number to update: "))
+                    new_task = input("Enter the new task: ")
+                    self.update_task(task_number, new_task)
+                except ValueError:
+                    print("Please enter a valid number.")
+            elif choice == '5':
+                print("Exiting the To-Do app!")
                 break
-        else:
-            print("Invalid input. Please enter a number between 1 and 4.")
+            else:
+                print("Invalid choice. Please choose again.")
 
 if __name__ == "__main__":
-    calculator()
+    todo_app = ToDoApp()
+    todo_app.run()
