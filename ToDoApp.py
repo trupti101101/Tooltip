@@ -32,7 +32,7 @@ class ToDoApp:
     def run(self):
         while True:
             print("\n==| Welcome To 'TO DO App' |==")
-            print("\nOptions:")
+            print("Options:")
             print("1. Add Task")
             print("2. View Tasks")
             print("3. Delete Task") 
